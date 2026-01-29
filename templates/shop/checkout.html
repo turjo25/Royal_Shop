@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold text-gray-900 mb-8 text-center">Checkout</h1>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 h-fit">
+            <h3 class="text-lg font-bold text-gray-900 mb-4">Your Order</h3>
+            <ul class="space-y-4 mb-6">
+                {% for item in cart.items.all %}
+                <li class="flex justify-between text-sm">
+                    <div>
+                        <span class="font-medium text-gray-700">{{ item.product.name }}</span>
+                        <span class="text-gray-500 ml-1">x {{ item.quantity }}</span>
+                    </div>
+                    <span class="text-gray-900 font-semibold">৳{{ item.get_total_price }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+            <div class="border-t pt-4 flex justify-between items-center">
+                <span class="font-bold text-lg">Total</span>
+                <span class="font-bold text-xl text-indigo-600">৳{{ cart.get_total_price }}</span>
+            </div>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+            <h3 class="text-lg font-bold text-gray-900 mb-4">Shipping & Billing</h3>
+            <form method="POST" class="space-y-4">
+                {% csrf_token %}
+                <div class="checkout-form-styled space-y-3">
+                    {{ form.as_p }}
+                </div>
+                <button type="submit" class="w-full mt-6 bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-xl shadow transition duration-300">
+                    Place Order & Pay
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Specific overrides for the checkout form if it renders raw inputs */
+    .checkout-form-styled input, .checkout-form-styled select, .checkout-form-styled textarea {
+        width: 100%;
+        padding: 0.5rem 0.75rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.5rem;
+        margin-top: 0.25rem;
+    }
+</style>
+{% endblock %}

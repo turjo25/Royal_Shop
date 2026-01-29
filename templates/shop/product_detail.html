@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="grid gap-8 lg:grid-cols-12">
+    <div class="lg:col-span-7">
+        <div class="overflow-hidden rounded-2xl border border-gray-200/70 bg-white shadow-sm">
+            <div class="bg-gray-50">
+                <div class="aspect-square w-full overflow-hidden">
+                    {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="h-full w-full object-cover object-center">
+                    {% else %}
+                    <div class="flex h-full w-full items-center justify-center text-gray-400">
+                        <i class="bi bi-image text-4xl"></i>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="lg:col-span-5">
+        <div class="rounded-2xl border border-gray-200/70 bg-white p-6 shadow-sm lg:sticky lg:top-24">
+            <div class="flex items-start justify-between gap-4">
+                <div>
+                    <h1 class="text-2xl font-semibold tracking-tight text-gray-900">{{ product.name }}</h1>
+                    <div class="mt-2 flex flex-wrap items-center gap-2">
+                        {% if product.avg_rating %}
+                        <span class="inline-flex items-center gap-1 rounded-full bg-yellow-50 px-2.5 py-1 text-xs font-semibold text-yellow-700">
+                            <i class="bi bi-star-fill"></i>
+                            {{ product.avg_rating|floatformat:1 }}
+                        </span>
+                        {% endif %}
+                        {% if product.stock > 0 %}
+                        <span class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-xs font-semibold text-green-700">
+                            <i class="bi bi-check-circle"></i>
+                            In stock: {{ product.stock }}
+                        </span>
+                        {% else %}
+                        <span class="inline-flex items-center gap-1 rounded-full bg-red-50 px-2.5 py-1 text-xs font-semibold text-red-700">
+                            <i class="bi bi-x-circle"></i>
+                            Out of stock
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="text-right">
+                    <p class="text-sm text-gray-500">Price</p>
+                    <p class="text-2xl font-bold text-brand-700">৳{{ product.price }}</p>
+                </div>
+            </div>
+
+            <div class="mt-6">
+                <h2 class="text-sm font-semibold text-gray-900">Description</h2>
+                <p class="mt-2 text-sm leading-6 text-gray-600">{{ product.description }}</p>
+            </div>
+
+            <div class="mt-6">
+                <a href="{% url 'cart_add' product.id %}" class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand-600 px-4 py-3 text-sm font-semibold text-white shadow-sm hover:bg-brand-700 transition">
+                    <i class="bi bi-bag-plus"></i>
+                    Add to cart
+                </a>
+            </div>
+
+            <div class="mt-8 border-t border-gray-200/70 pt-6">
+                <h3 class="text-sm font-semibold text-gray-900">Rate this product</h3>
+                {% if user_rating %}
+                <p class="mt-2 text-sm text-gray-600">
+                    Your Rating: <span class="font-semibold text-brand-700">{{ user_rating.rating }}/5</span>
+                </p>
+                {% endif %}
+                <a href="{% url 'rate_product' product.id %}" class="mt-4 inline-flex items-center gap-2 rounded-xl border border-yellow-300 bg-yellow-50 px-4 py-2 text-sm font-semibold text-yellow-800 hover:bg-yellow-100 transition">
+                    <i class="bi bi-star"></i>
+                    Write a review
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-14">
+    <div class="flex items-end justify-between gap-4">
+        <div>
+            <h3 class="text-xl font-semibold tracking-tight text-gray-900">Related Products</h3>
+            <p class="mt-1 text-sm text-gray-600">You may also like these.</p>
+        </div>
+    </div>
+
+    <div class="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-4">
+        {% for related in related_products %}
+        <a href="{% url 'product_detail' related.slug %}" class="group block overflow-hidden rounded-2xl border border-gray-200/70 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-soft">
+            <div class="aspect-[4/3] bg-gray-100 overflow-hidden">
+                {% if related.image %}
+                <img src="{{ related.image.url }}" alt="{{ related.name }}" class="h-full w-full object-cover object-center transition duration-500 group-hover:scale-105">
+                {% endif %}
+            </div>
+            <div class="p-4">
+                <h6 class="truncate text-sm font-semibold text-gray-900">{{ related.name }}</h6>
+                <p class="mt-1 text-sm font-bold text-brand-700">৳{{ related.price }}</p>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
