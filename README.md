@@ -71,7 +71,7 @@ python manage.py createsuperuser
 python manage.py runserver
 ```
 
-Access at: http://127.0.0.1:8000/ | Admin: http://127.0.0.1:8000/admin/
+Access at: http://127.0.0.1:8000/ | Admin: http://127.0.0.1:8000/admin/ | Live Link: [Royal Shop](https://royal-shop-uf36.onrender.com)
 
 ## 🔌 Key Endpoints
 

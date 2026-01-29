@@ -38,6 +38,7 @@ def register_view(request):
             )
             messages.success(request, "Registration Successful!")
             return redirect('profile')
+            # return redirect('product_list')
     else:
         form = RegistrationForm()
     
