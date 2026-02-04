@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-*0*zy86-gij)=(!9v)gj$!9uu&f3w37$q6e4%2v++j++f8&+q6
 DEBUG = True
 
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['https://royal-shop-uf36.onrender.com','royal-shop-uf36.onrender.com']
+ALLOWED_HOSTS = ['https://royal-shop-uf36.onrender.com','royal-shop-uf36.onrender.com','127.0.0.1','localhost']
 CSRF_TRUSTED_ORIGINS = ['https://royal-shop-uf36.onrender.com']
 # Application definition
 
@@ -144,6 +144,29 @@ LOGOUT_REDIRECT_URL = '/'
 SOCIALACCOUNT_LOGIN_ON_GET = True
 ACCOUNT_SESSION_REMEMBER = True 
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+
+
+# SOCIALACCOUNT_ADAPTER = 'allauth.socialaccount.adapter.DefaultSocialAccountAdapter'
+# # # Ensure this is set to allow the link
+# SOCIALACCOUNT_AUTO_SIGNUP = True 
+# ACCOUNT_AUTHENTICATION_METHOD = 'email'
+# ACCOUNT_EMAIL_REQUIRED = True
+# ACCOUNT_UNIQUE_EMAIL = True
+# SOCIALACCOUNT_PROVIDERS = {
+#     'google': {
+#         'SCOPE': [
+#             'profile',
+#             'email',
+#         ],
+#         'AUTH_PARAMS': {
+#             'access_type': 'online',
+#         },
+#     }
+# }
+# ACCOUNT_EMAIL_REQUIRED = True
+# ACCOUNT_USERNAME_REQUIRED = True
+# SOCIALACCOUNT_QUERY_EMAIL = True
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

@@ -274,27 +274,48 @@ def payment_process(request):
         return redirect('checkout')
         
 # 1. Payment Success
+# @csrf_exempt
+# @login_required
+# def payment_success(request, order_id):
+#     order = get_object_or_404(Order, id= order_id, user=request.user)
+#     order.paid = True 
+#     order.status = 'processing'
+#     order.transaction_id = order.id 
+#     order.save()
+#     order_items = order.order_items.all()
+#     for item in order_items:
+#         product = item.product
+#         product.stock -= item.quantity
+#         if product.stock < 0:
+#             product.stock = 0
+#         product.save()
+    
+#     # send confirmation email
+#     send_order_confirmation_email(order)
+    
+#     messages.success(request, 'Payment successful')
+#     return render(request, 'shop/payment_success.html', {'order' : order})
 @csrf_exempt
-@login_required
 def payment_success(request, order_id):
-    order = get_object_or_404(Order, id= order_id, user=request.user)
-    order.paid = True 
+    order = get_object_or_404(Order, id=order_id)
+
+    if order.paid:
+        return render(request, 'shop/payment_success.html', {'order': order})
+
+    order.paid = True
     order.status = 'processing'
-    order.transaction_id = order.id 
+    order.transaction_id = request.POST.get('tran_id', f"TXN-{order.id}")
     order.save()
-    order_items = order.order_items.all()
-    for item in order_items:
+
+    for item in order.order_items.all():
         product = item.product
-        product.stock -= item.quantity
-        if product.stock < 0:
-            product.stock = 0
+        product.stock = max(product.stock - item.quantity, 0)
         product.save()
-    
-    # send confirmation email
+
     send_order_confirmation_email(order)
-    
-    messages.success(request, 'Payment successful')
-    return render(request, 'shop/payment_success.html', {'order' : order})
+
+    return render(request, 'shop/payment_success.html', {'order': order})
+
 
 @csrf_exempt
 @login_required
@@ -319,7 +340,8 @@ def payment_cancel(request, order_id):
 def profile(request):
     tab = request.GET.get('tab')
     orders = Order.objects.filter(user = request.user)
-    completed_orders = orders.filter(status = 'delivered')
+    # completed_orders = orders.filter(status = 'delivered')
+    completed_orders = orders.filter(status='completed').count()
     total_spent = sum(order.get_total_cost() for order in orders)
     order_history_active = (tab == 'orders') # true or false return korbe
     
