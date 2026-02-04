@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-*0*zy86-gij)=(!9v)gj$!9uu&f3w37$q6e4%2v++j++f8&+q6
 DEBUG = True
 
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['https://royal-shop-uf36.onrender.com','royal-shop-uf36.onrender.com','127.0.0.1','localhost']
+ALLOWED_HOSTS = ['https://royal-shop-uf36.onrender.com','royal-shop-uf36.onrender.com']
 CSRF_TRUSTED_ORIGINS = ['https://royal-shop-uf36.onrender.com']
 # Application definition
 
