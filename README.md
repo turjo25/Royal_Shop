@@ -1,4 +1,4 @@
-# E-Shop - Single Vendor E-commerce Platform
+# Royal Shop - Single Vendor E-commerce Platform
 
 Django-based e-commerce application with SSLCommerz payment integration, product management, cart functionality, and order processing.
 
